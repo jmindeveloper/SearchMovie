@@ -12,6 +12,10 @@
 		0E11123827DC618F00B8D044 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E11123727DC618F00B8D044 /* Assets.xcassets */; };
 		0E11123B27DC618F00B8D044 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E11123A27DC618F00B8D044 /* Preview Assets.xcassets */; };
 		0E11124327DC61A100B8D044 /* ApiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11124227DC61A100B8D044 /* ApiKey.swift */; };
+		0E11124627DC69F400B8D044 /* MovieList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11124527DC69F400B8D044 /* MovieList.swift */; };
+		0E11124827DC6AD200B8D044 /* BoxOfficeRanking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11124727DC6AD200B8D044 /* BoxOfficeRanking.swift */; };
+		0E11125027DC72EA00B8D044 /* BoxOfficeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11124F27DC72EA00B8D044 /* BoxOfficeViewModel.swift */; };
+		0E11125227DC789500B8D044 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E11125127DC789500B8D044 /* MovieViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +25,10 @@
 		0E11123727DC618F00B8D044 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E11123A27DC618F00B8D044 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0E11124227DC61A100B8D044 /* ApiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKey.swift; sourceTree = "<group>"; };
+		0E11124527DC69F400B8D044 /* MovieList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieList.swift; sourceTree = "<group>"; };
+		0E11124727DC6AD200B8D044 /* BoxOfficeRanking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeRanking.swift; sourceTree = "<group>"; };
+		0E11124F27DC72EA00B8D044 /* BoxOfficeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxOfficeViewModel.swift; sourceTree = "<group>"; };
+		0E11125127DC789500B8D044 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +61,8 @@
 		0E11123227DC618E00B8D044 /* SearchMovie */ = {
 			isa = PBXGroup;
 			children = (
+				0E11124E27DC72D800B8D044 /* ViewModel */,
+				0E11124427DC69E300B8D044 /* Model */,
 				0E11124127DC619300B8D044 /* ApiKeys */,
 				0E11123327DC618E00B8D044 /* SearchMovieApp.swift */,
 				0E11123527DC618E00B8D044 /* ContentView.swift */,
@@ -76,6 +86,24 @@
 				0E11124227DC61A100B8D044 /* ApiKey.swift */,
 			);
 			path = ApiKeys;
+			sourceTree = "<group>";
+		};
+		0E11124427DC69E300B8D044 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0E11124527DC69F400B8D044 /* MovieList.swift */,
+				0E11124727DC6AD200B8D044 /* BoxOfficeRanking.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		0E11124E27DC72D800B8D044 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0E11124F27DC72EA00B8D044 /* BoxOfficeViewModel.swift */,
+				0E11125127DC789500B8D044 /* MovieViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,8 +176,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E11125027DC72EA00B8D044 /* BoxOfficeViewModel.swift in Sources */,
 				0E11123627DC618E00B8D044 /* ContentView.swift in Sources */,
+				0E11124827DC6AD200B8D044 /* BoxOfficeRanking.swift in Sources */,
 				0E11124327DC61A100B8D044 /* ApiKey.swift in Sources */,
+				0E11124627DC69F400B8D044 /* MovieList.swift in Sources */,
+				0E11125227DC789500B8D044 /* MovieViewModel.swift in Sources */,
 				0E11123427DC618E00B8D044 /* SearchMovieApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,6 +316,7 @@
 				DEVELOPMENT_TEAM = 8PRV428ULN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SearchMovie/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -313,6 +346,7 @@
 				DEVELOPMENT_TEAM = 8PRV428ULN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SearchMovie/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

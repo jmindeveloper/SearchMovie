@@ -8,10 +8,15 @@
 import SwiftUI
 
 @main
+
 struct SearchMovieApp: App {
+    
+    @StateObject var boxOfficeViewModel = BoxOfficeViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(boxOfficeViewModel: boxOfficeViewModel)
+//                .environmentObject(BoxOfficeViewModel())
         }
     }
 }
