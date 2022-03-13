@@ -31,7 +31,6 @@ class BoxOfficeViewModel: ObservableObject {
             self.boxOfficeDateRange = $0.boxOfficeResult.showRange
             for (index, title) in movieTitles.enumerated() {
                 self.getMovieDetail(title) {
-                    print("get movieDetail success")
                     let plot = self.getMoviePlot($0.link)
                     let movie = Movie($0, plot)
                     self.boxOfficeMovieList[index] = movie
@@ -92,7 +91,6 @@ class BoxOfficeViewModel: ObservableObject {
         guard let plot: Elements = try? doc.select("div.story_area p.con_tx") else { return "" }
         
         guard let moviePlot = try? plot.text() else { return "" }
-        print(moviePlot)
         return moviePlot
     }
     

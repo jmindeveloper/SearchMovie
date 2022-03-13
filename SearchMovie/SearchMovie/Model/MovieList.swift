@@ -50,7 +50,7 @@ struct Movie: Identifiable {
     var image: UIImage = UIImage()
     var subtitle: String = ""
     var director: String = ""
-    var actors: [String] = []
+    var actors: String = ""
     var userRating: String = ""
     var plot: String = ""
     
@@ -60,7 +60,7 @@ struct Movie: Identifiable {
         self.image = movieItem.movieImage
         self.subtitle = movieItem.subtitle
         self.director = movieItem.movieDirector
-        self.actors = movieItem.movieActor
+        self.actors = movieItem.actor
         self.userRating = movieItem.userRating
         self.plot = moviePlot
     }
