@@ -8,87 +8,78 @@
 import Foundation
 import SwiftUI
 
+let movieSample: Movie = Movie(MovieItem(title: "<b>더 배트맨</b>", link: "https://movie.naver.com/movie/bi/mi/basic.nhn?code=154282", image: "https://ssl.pstatic.net/imgmovie/mdi/mit110/1542/154282_P04_170044.jpg", subtitle: "The Batman", pubDate: "2022", director: "맷 리브스|", actor: "로버트 패틴슨|배우1|배우2|배우3", userRating: "7.15"))
+
 class BoxOfficeViewModel: ObservableObject {
     
     @Published var boxOfficeType: String = ""
     @Published var boxOfficeDateRange: String = ""
-    @Published var boxOfficeList: [WeeklyBoxOfficeList] = []
-    @Published var movies: [MovieItem] = [MovieItem](repeating: MovieItem(title: "", link: "", image: "", subtitle: "", pubDate: "", director: "", actor: "", userRating: ""), count: 10)
+    @Published var boxOfficeMovieList: [Movie] = Array(repeating: Movie(), count: 10)
+    
     
     init() {
-        getboxOffice("20220306")
+        print("init")
+        getBoxOfficeMovieList("20220306")
     }
     
-    // boxOffice 정보 가져오기
-    func getboxOffice(_ date: String) {
-        let apiKey = ApiKey()
-        
-        guard let url = URL(string: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=\(apiKey.koficApiKey)&targetDt=\(date)&weekGb=0") else { return }
-        
-        let request = URLRequest(url: url)
-        
-        let session = URLSession(configuration: .default)
-        session.dataTask(with: request) { [weak self] data, response, error in
-            guard let data = data, error == nil else { return }
-            
-            let decoder = JSONDecoder()
-            guard let boxOfficeRanking = try? decoder.decode(BoxOfficeRanking.self, from: data) else { return }
-            guard let self = self else { return }
-            
-            
-            DispatchQueue.main.async {
-                self.boxOfficeType = boxOfficeRanking.boxOfficeResult.boxofficeType
-                self.boxOfficeList = boxOfficeRanking.boxOfficeResult.weeklyBoxOfficeList
-                self.boxOfficeDateRange = boxOfficeRanking.boxOfficeResult.showRange
-                self.getMovieDetail(self.boxOfficeList)
+    // boxoffice 영화리스트 가져오기
+    func getBoxOfficeMovieList(_ date: String) {
+        getBoxOffice(date) {
+            print("get boxoffice success")
+            let movieTitles = $0.boxOfficeResult.weeklyBoxOfficeList.map { $0.title }
+            self.boxOfficeType = $0.boxOfficeResult.boxofficeType
+            self.boxOfficeDateRange = $0.boxOfficeResult.showRange
+            for (index, title) in movieTitles.enumerated() {
+                self.getMovieDetail(title) {
+                    print("get movieDetail success")
+                    let movie = Movie($0)
+                    self.boxOfficeMovieList[index] = movie
+                }
             }
-        }.resume()
-    }
-    
-    //
-    func getMovieDetail(_ movies: [WeeklyBoxOfficeList]) {
-        for movie in movies {
-            getMovies(movie.title, getCount: "1")
         }
     }
     
-    // 영화정보 가져오기
-    func getMovies(_ query: String, getCount: String = "10") {
+    // boxoffice 가져오기(한국영화진흥원)
+    func getBoxOffice(_ date: String, _ completion: @escaping (BoxOfficeRanking) -> Void) {
+        let apiKey = ApiKey()
         
-        let aipKeys = ApiKey()
-        
-        let urlStr: String = "https://openapi.naver.com/v1/search/movie.json?query=\(query)&display=\(getCount)"
-        let encodedStr = urlStr.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        guard let url = URL(string: encodedStr) else { return }
-        
-        var request = URLRequest(url: url)
-        request.addValue(aipKeys.naverClientID, forHTTPHeaderField: "X-Naver-Client-Id")
-        request.addValue(aipKeys.naverClientSecret, forHTTPHeaderField: "X-Naver-Client-Secret")
-        
+        guard let url = URL(string: "http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchWeeklyBoxOfficeList.json?key=\(apiKey.koficApiKey)&targetDt=\(date)&weekGb=0") else { return }
+
         let session = URLSession(configuration: .default)
-        session.dataTask(with: request) { [weak self] data, response, error in
+        session.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else { return }
-            
             let decoder = JSONDecoder()
-            guard let movies = try? decoder.decode(MovieList.self, from: data) else { return }
-            guard let self = self else { return }
+            guard let boxOfficeRanking = try? decoder.decode(BoxOfficeRanking.self, from: data) else { return }
+            
             DispatchQueue.main.async {
-                self.moviesAppend(movies.items[0].movieTitle, movies)
+                completion(boxOfficeRanking)
             }
         }.resume()
     }
     
-    func moviesAppend(_ title: String, _ movie: MovieList) {
-        let index = boxOfficeList.firstIndex { $0.title == title }
-        guard let movieIndex = index else { return }
-        self.movies[movieIndex] = movie.items[0]
-    }
-    
-    func getPoster(_ urlStr: String) -> UIImage {
-        guard let url = URL(string: urlStr) else { return UIImage() }
-        guard let data = try? Data(contentsOf: url) else { return UIImage() }
-        guard let image = UIImage(data: data) else { return UIImage() }
-        return image
+    // 영화정보 가져오기(네이버영화검색api)
+    func getMovieDetail(_ query: String, _ getCount: Int = 10, _ completion: @escaping (MovieItem) -> Void) {
+        let apiKey = ApiKey()
+        let getCount = String(getCount)
+        let urlStr: String = "https://openapi.naver.com/v1/search/movie.json?query=\(query)&display=\(getCount)"
+        let encodeUrl = urlStr.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        guard let url = URL(string: encodeUrl) else { return }
+        
+        var request = URLRequest(url: url)
+        request.addValue(apiKey.naverClientID, forHTTPHeaderField: "X-Naver-Client-Id")
+        request.addValue(apiKey.naverClientSecret, forHTTPHeaderField: "X-Naver-Client-Secret")
+        
+        let session = URLSession(configuration: .default)
+        session.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else { return }
+            
+            let decoder = JSONDecoder()
+            guard let movieList = try? decoder.decode(MovieList.self, from: data) else { return }
+            
+            DispatchQueue.main.async {
+                completion(movieList.items[0])
+            }
+        }.resume()
     }
     
 }

@@ -11,11 +11,11 @@ import SwiftUI
 
 struct SearchMovieApp: App {
     
-    @StateObject var boxOfficeViewModel = BoxOfficeViewModel()
+//    @StateObject var boxOfficeViewModel = BoxOfficeViewModel()
     
     var body: some Scene {
         WindowGroup {
-            ContentView(boxOfficeViewModel: boxOfficeViewModel)
+            ContentView()
 //                .environmentObject(BoxOfficeViewModel())
         }
     }
