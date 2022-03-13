@@ -52,8 +52,9 @@ struct Movie: Identifiable {
     var director: String = ""
     var actors: [String] = []
     var userRating: String = ""
+    var plot: String = ""
     
-    init(_ movieItem: MovieItem) {
+    init(_ movieItem: MovieItem, _ moviePlot: String) {
         self.title = movieItem.movieTitle
         self.link = movieItem.link
         self.image = movieItem.movieImage
@@ -61,6 +62,7 @@ struct Movie: Identifiable {
         self.director = movieItem.movieDirector
         self.actors = movieItem.movieActor
         self.userRating = movieItem.userRating
+        self.plot = moviePlot
     }
     
     init() {

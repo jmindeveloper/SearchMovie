@@ -7,15 +7,15 @@
 
 import Foundation
 import SwiftUI
+import SwiftSoup
 
-let movieSample: Movie = Movie(MovieItem(title: "<b>더 배트맨</b>", link: "https://movie.naver.com/movie/bi/mi/basic.nhn?code=154282", image: "https://ssl.pstatic.net/imgmovie/mdi/mit110/1542/154282_P04_170044.jpg", subtitle: "The Batman", pubDate: "2022", director: "맷 리브스|", actor: "로버트 패틴슨|배우1|배우2|배우3", userRating: "7.15"))
+let movieSample: Movie = Movie(MovieItem(title: "<b>더 배트맨</b>", link: "https://movie.naver.com/movie/bi/mi/basic.nhn?code=154282", image: "https://ssl.pstatic.net/imgmovie/mdi/mit110/1542/154282_P04_170044.jpg", subtitle: "The Batman", pubDate: "2022", director: "맷 리브스|", actor: "로버트 패틴슨|배우1|배우2|배우3", userRating: "7.15"), "<장르 서브 장르>는 누사 텐가라 티무르 박물관이 주최한 영화와 사진 프로젝트에 포함되었던 실험 비디오 작품이다. 신비로운 분위기가 지배하는 흑백 필름인 이 영화는 세 개의 삽화로 나누어져 있다. 야심한 밤에 지프에 무언가를 싣고 온 청년들, 따가운 볕이 내리쬐는 한낮에 나무 아래서 축구를 하는 아이들, 그리고 강물 위로 떠가는 종이배의 항해 에피소드가 이어진다. 인도네시아의 실험영화 작가 요셉 앙기 노엔은 분리된 삽화들 사이의 연관성을 명시하지 않은 채 사실적인 밤의 이미지와 백일몽과 같은 낮의 이미지들을 대비시킨다. 거대한 종이배가 화면을 가로질러가는 아름다운 라스트 신이 인상적이다. (장병원)[제15회 전주국제영화제]")
 
 class BoxOfficeViewModel: ObservableObject {
     
     @Published var boxOfficeType: String = ""
     @Published var boxOfficeDateRange: String = ""
     @Published var boxOfficeMovieList: [Movie] = Array(repeating: Movie(), count: 10)
-    
     
     init() {
         print("init")
@@ -32,7 +32,8 @@ class BoxOfficeViewModel: ObservableObject {
             for (index, title) in movieTitles.enumerated() {
                 self.getMovieDetail(title) {
                     print("get movieDetail success")
-                    let movie = Movie($0)
+                    let plot = self.getMoviePlot($0.link)
+                    let movie = Movie($0, plot)
                     self.boxOfficeMovieList[index] = movie
                 }
             }
@@ -80,6 +81,19 @@ class BoxOfficeViewModel: ObservableObject {
                 completion(movieList.items[0])
             }
         }.resume()
+    }
+    
+    func getMoviePlot(_ url: String) -> String {
+        guard let url = URL(string: url) else { return "" }
+        
+        guard let html = try? String(contentsOf: url, encoding: .utf8) else { return "" }
+        guard let doc: Document = try? SwiftSoup.parse(html) else { return "" }
+        
+        guard let plot: Elements = try? doc.select("div.story_area p.con_tx") else { return "" }
+        
+        guard let moviePlot = try? plot.text() else { return "" }
+        print(moviePlot)
+        return moviePlot
     }
     
 }

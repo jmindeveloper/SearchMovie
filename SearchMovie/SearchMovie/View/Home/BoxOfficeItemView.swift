@@ -11,6 +11,7 @@ struct BoxOfficeItemView: View {
     
     let movie: Movie
     let index: Int
+    @State var isSheetOn: Bool = false
     
     var body: some View {
         
@@ -47,7 +48,10 @@ struct BoxOfficeItemView: View {
         } //: ZSTACK
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .onTapGesture {
-            print(movie.title)
+            isSheetOn = true
+        }
+        .sheet(isPresented: $isSheetOn) {
+            MovieDetailView(movie: movie)
         }
     }
 }
