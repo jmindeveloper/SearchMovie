@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BoxOfficeItemView: View {
+struct MovieItemView: View {
     
     let movie: Movie
     let index: Int
@@ -58,7 +58,7 @@ struct BoxOfficeItemView: View {
 
 struct MovieListItem_Previews: PreviewProvider {
     static var previews: some View {
-        BoxOfficeItemView(movie: movieSample, index: 10)
+        MovieItemView(movie: movieSample, index: 10)
             .previewLayout(.sizeThatFits)
             .padding()
     }

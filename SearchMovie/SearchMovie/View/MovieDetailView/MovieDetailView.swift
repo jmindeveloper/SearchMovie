@@ -34,10 +34,12 @@ struct MovieDetailView: View {
                                 .fontWeight(.bold)
                                 .padding(.top)
                                 .multilineTextAlignment(.center)
+                                .foregroundColor(.black)
                             
                             Text(movie.subtitle)
                                 .fontWeight(.medium)
                                 .padding(.bottom)
+                                .foregroundColor(.black)
                             
                             HeaderView(title: "감독", content: movie.director)
                             
@@ -72,6 +74,7 @@ struct MovieDetailView: View {
                 .background(
                     Color.white
                         .clipShape(CustonShape())
+                        .shadow(radius: 4)
             ) //: BACKGROUND
             } //: VSTACK
             .offset(y: isAnimated ? 0 : 1000)

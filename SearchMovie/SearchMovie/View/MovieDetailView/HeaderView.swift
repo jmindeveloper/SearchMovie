@@ -17,8 +17,10 @@ struct HeaderView: View {
             Text(title)
                 .font(.title)
                 .fontWeight(.bold)
+                .foregroundColor(.black)
             
             Text(content)
+                .foregroundColor(.black)
         }
         .padding([.bottom, .leading, .trailing])
     }

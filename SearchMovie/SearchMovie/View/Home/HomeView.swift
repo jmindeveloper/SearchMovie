@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @StateObject var boxOfficeViewModel = BoxOfficeViewModel()
+    @StateObject var movieViewModel = MovieViewModel()
     
     var body: some View {
         NavigationView {
@@ -23,7 +23,7 @@ struct HomeView: View {
                             .padding(.horizontal)
                             .padding(.top)
                         
-                        Text(boxOfficeViewModel.boxOfficeDateRange)
+                        Text(movieViewModel.boxOfficeDateRange)
                             .italic()
                             .padding(.horizontal)
                             .padding(.top, 3)
@@ -32,8 +32,8 @@ struct HomeView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(boxOfficeViewModel.boxOfficeMovieList.indices, id: \.self) { index in
-                                BoxOfficeItemView(movie: boxOfficeViewModel.boxOfficeMovieList[index], index: index + 1)
+                            ForEach(movieViewModel.boxOfficeMovieList.indices, id: \.self) { index in
+                                MovieItemView(movie: movieViewModel.boxOfficeMovieList[index], index: index + 1)
                             } //: LOOP
                         } //: HSTACK
                         .padding(.horizontal)
@@ -43,7 +43,6 @@ struct HomeView: View {
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)
         } //: NAVIGATION
-//        Text("Hello, World")
     }
 }
 

@@ -31,9 +31,9 @@ struct MovieItem: Codable {
         director.replacingOccurrences(of: "|", with: "")
     }
     
-    var movieActor: [String] {
-        actor.split(separator: "|").map { String($0) }
-    }
+//    var movieActor: [String] {
+//        actor.split(separator: "|").map { String($0) }
+//    }
     
     var movieImage: UIImage {
         guard let url = URL(string: image) else { return UIImage() }
