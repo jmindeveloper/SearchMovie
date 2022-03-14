@@ -42,10 +42,11 @@ class MovieViewModel: ObservableObject {
     @Published var boxOfficeType: String = ""
     @Published var boxOfficeDateRange: String = ""
     @Published var boxOfficeMovieList: [Movie] = Array(repeating: Movie(), count: 10)
+    @Published var searchResultMovieList: [Movie] = []
     
     init() {
         print("init")
-        getBoxOfficeMovieList("20220301")
+        getBoxOfficeMovieList("20220307")
     }
     
     // boxoffice 영화리스트 가져오기
@@ -65,8 +66,8 @@ class MovieViewModel: ObservableObject {
                     DispatchQueue.global().async { [weak self] in
                         guard let self = self else { return }
                         // 줄거리랑 영화정보 받아오는작업은 글로벌큐에서 비동기적으로 동시 수행
-                        let plot = self.getMoviePlot(aMovie.link)
-                        let movie = Movie(aMovie, plot)
+                        let plot = self.getMoviePlot(aMovie[0].link)
+                        let movie = Movie(aMovie[0], plot)
                         DispatchQueue.main.async { [weak self] in
                             guard let self = self else { return }
                             // 배열에 저장은 ui관련이므로 메인큐에서 수행
@@ -101,7 +102,7 @@ class MovieViewModel: ObservableObject {
     }
     
     // 영화정보 가져오기(네이버영화검색api)
-    func getMovieDetail(_ query: String, _ getCount: Int = 10, _ completion: @escaping (MovieItem) -> Void) {
+    func getMovieDetail(_ query: String, _ getCount: Int = 10, _ completion: @escaping ([MovieItem]) -> Void) {
         let apiKey = ApiKey()
         let getCount = String(getCount)
         let urlStr: String = "https://openapi.naver.com/v1/search/movie.json?query=\(query)&display=\(getCount)"
@@ -120,9 +121,7 @@ class MovieViewModel: ObservableObject {
             guard let movieList = try? decoder.decode(MovieList.self, from: data) else { return }
             
 //            DispatchQueue.main.async {
-                // 일단 받아오는 정보가 하나라 items[0]으로 해줌
-                // 나중에 영화검색을 구현할때는 여러개의 정보를 받아와야하기때문에 수정예정
-                completion(movieList.items[0])
+                completion(movieList.items)
 //            }
         }.resume()
     }
@@ -140,4 +139,34 @@ class MovieViewModel: ObservableObject {
         return moviePlot
     }
     
+    func getSearchMovie(_ searchMovieName: String) {
+        searchResultMovieList = []
+        print("\(searchMovieName) 검색시작")
+        getMovieDetail(searchMovieName, 100) { movie in
+            
+            DispatchQueue.global().async {
+                
+                for movie in movie {
+                    DispatchQueue.global().async {
+                        let plot = self.getMoviePlot(movie.link)
+                        DispatchQueue.main.async { [weak self] in
+                            guard let self = self else { return }
+                            self.searchResultMovieList.append(Movie(movie, plot))
+                    }
+                    }
+                }
+            }
+            
+//            DispatchQueue.main.async {
+//                self.searchResultMovieList = movie.map({ movieItem in
+//                    var plot = ""
+//                    DispatchQueue.global().async {
+//                        plot = self.getMoviePlot(movieItem.link)
+//                    }
+//                    return Movie(movieItem, plot)
+//                })
+//            }
+            
+        }
+    }
 }

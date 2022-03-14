@@ -9,14 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @StateObject var movieViewModel = MovieViewModel()
+    
     var body: some View {
         TabView {
-            HomeView()
+            HomeView(movieViewModel: movieViewModel)
                 .tabItem {
                     Image(systemName: "house")
                     Text("Home")
                 }
-            SearchView()
+            SearchView(movieViewModel: movieViewModel)
                 .tabItem {
                     Image(systemName: "magnifyingglass")
                     Text("Search")
@@ -30,3 +32,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+

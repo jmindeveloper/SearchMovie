@@ -10,7 +10,15 @@ import SwiftUI
 struct MovieItemView: View {
     
     let movie: Movie
-    let index: Int
+    let index: Int?
+    var isIndexNil: Bool {
+        if index == nil {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     @State var isSheetOn: Bool = false
     
     var body: some View {
@@ -33,17 +41,19 @@ struct MovieItemView: View {
                     .scaledToFit()
                     .frame(width:150)
                     .padding(.bottom, -10)
-                    .overlay(
-                        Text("\(index)")
-                            .font(.system(size: 90))
-                            .fontWeight(.heavy)
-                            .foregroundColor(.white)
-                            .shadow(color: .black, radius: 0, x: 4, y: 4)
-                            .frame(alignment: .bottomLeading)
-                            .offset(x: 5 ,y: 20)
-                        , alignment: .bottomLeading
-                    )
-                
+                    .overlay(alignment: .bottomLeading) {
+                        if isIndexNil {
+                            EmptyView()
+                        } else {
+                            Text("\(index!)")
+                                .font(.system(size: 90))
+                                .fontWeight(.heavy)
+                                .foregroundColor(.white)
+                                .shadow(color: .black, radius: 0, x: 4, y: 4)
+                                .frame(alignment: .bottomLeading)
+                                .offset(x: 5 ,y: 20)
+                        } //: isIndexNil
+                    } //: OVERLAY
             } //: VSTACK
         } //: ZSTACK
         .clipShape(RoundedRectangle(cornerRadius: 12))

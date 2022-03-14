@@ -11,38 +11,22 @@ import SwiftUI
 struct SearchView: View {
     
     @State private var searchMovieName: String = ""
-    @FocusState private var isEndEditing: Bool
+    @ObservedObject var movieViewModel: MovieViewModel
+    let column: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     
     var body: some View {
         
         VStack {
-            HStack {
-                ZStack {
-                    Rectangle()
-                        .foregroundColor(Color(uiColor: UIColor.systemGray6))
-
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                        TextField("Search...", text: $searchMovieName)
-                            .focused($isEndEditing)
-                    } //: HSTACK
-                    .padding(.leading)
-                } //: ZSTACK
-                .frame(height: 40)
-                .cornerRadius(8)
-                .padding([.leading, .vertical])
-
-                Button(action: {
-                    isEndEditing = false
-                }, label: {
-                    Image(systemName: "magnifyingglass")
-                        .imageScale(.large)
-                }) //: BUTTON
-                    .padding(.trailing)
-            } //: HSTACK
+            
+            SearchBar(searchMovieName: $searchMovieName, movieViewModel: movieViewModel)
 
             ScrollView(.vertical, showsIndicators: false) {
-                Text("lkadflkj")
+                LazyVGrid(columns: column) {
+                    ForEach(movieViewModel.searchResultMovieList) { movie in
+                        MovieItemView(movie: movie, index: nil)
+                            .frame(width: UIScreen.main.bounds.width / 2 - 10)
+                    }
+                }
             } //: SCROLL.V
         } //: VSTACK
     }

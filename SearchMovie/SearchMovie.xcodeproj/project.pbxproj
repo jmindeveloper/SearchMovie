@@ -21,6 +21,7 @@
 		0E92F0FA27DDF54B005846A7 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E92F0F927DDF54B005846A7 /* HeaderView.swift */; };
 		0E92F0FE27DDF7DD005846A7 /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E92F0FD27DDF7DD005846A7 /* CustomShape.swift */; };
 		0E92F10127DDFBF0005846A7 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E92F10027DDFBF0005846A7 /* SearchView.swift */; };
+		0EAC2F0D27DF5DE800341B1D /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAC2F0C27DF5DE700341B1D /* SearchBar.swift */; };
 		C062D02C1412FD9D9507C788 /* Pods_SearchMovie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 490A82B520DED2942DF892B1 /* Pods_SearchMovie.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		0E92F0F927DDF54B005846A7 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		0E92F0FD27DDF7DD005846A7 /* CustomShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
 		0E92F10027DDFBF0005846A7 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		0EAC2F0C27DF5DE700341B1D /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		490A82B520DED2942DF892B1 /* Pods_SearchMovie.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SearchMovie.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61CFDC6ED9FC9DD01BF750DE /* Pods-SearchMovie.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchMovie.debug.xcconfig"; path = "Target Support Files/Pods-SearchMovie/Pods-SearchMovie.debug.xcconfig"; sourceTree = "<group>"; };
 		7C06573396C63174E9031049 /* Pods-SearchMovie.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchMovie.release.xcconfig"; path = "Target Support Files/Pods-SearchMovie/Pods-SearchMovie.release.xcconfig"; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				0E92F10027DDFBF0005846A7 /* SearchView.swift */,
+				0EAC2F0C27DF5DE700341B1D /* SearchBar.swift */,
 			);
 			path = SearchView;
 			sourceTree = "<group>";
@@ -307,6 +310,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EAC2F0D27DF5DE800341B1D /* SearchBar.swift in Sources */,
 				0E10BC4827DDD4F400FA8FD6 /* MovieDetailView.swift in Sources */,
 				0E11125027DC72EA00B8D044 /* MovieViewModel.swift in Sources */,
 				0E11123627DC618E00B8D044 /* ContentView.swift in Sources */,
